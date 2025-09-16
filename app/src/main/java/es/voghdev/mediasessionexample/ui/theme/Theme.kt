@@ -9,7 +9,12 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -45,9 +50,21 @@ fun MediaSessionExampleTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
+    }
+    
+    val view = LocalView.current
+    
+    // Set the status bar color to transparent
+    if (!view.isInEditMode) {
+        val window = (view.context as? Activity)?.window
+        window?.let {
+            WindowCompat.getInsetsController(it, view).isAppearanceLightStatusBars = !darkTheme
+            WindowCompat.getInsetsController(it, view).isAppearanceLightNavigationBars = !darkTheme
+            it.statusBarColor = Color.Transparent.value.toInt()
+            it.navigationBarColor = Color.Transparent.value.toInt()
+        }
     }
 
     MaterialTheme(
@@ -55,4 +72,18 @@ fun MediaSessionExampleTheme(
         typography = Typography,
         content = content
     )
+}
+
+@Composable
+fun NoActionBarTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = true,
+    content: @Composable () -> Unit
+) {
+    MediaSessionExampleTheme(
+        darkTheme = darkTheme,
+        dynamicColor = dynamicColor
+    ) {
+        content()
+    }
 }
