@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.MediaSessionExample" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.MediaSessionExample" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        
+        <!-- Background color -->
+        <item name="android:windowBackground">@color/black</item>
+        
+        <!-- Window settings -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
 </resources>
